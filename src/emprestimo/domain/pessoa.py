@@ -6,6 +6,6 @@ class Pessoa:
         self.cpf = cpf
 
     def imprimir_dados_pessoa(self):
-        print(f'Nome: {self.nome}')
-        print(f'CPF: {self.cpf}')
-        print(f'Telefone: {self.telefone}')
+        print(f'Nome: {self.nome}\n'
+              f'CPF: {self.cpf}\n'
+              f'Telefone: {self.telefone}')

@@ -1,10 +1,13 @@
+from domain.tipo_emprestimo import * 
+
 class Emprestimo:
 
-    def __init__(self, valorEmprestimo, numeroParcelas, numeroParcelasPagas, pessoa):
+    def __init__(self, valorEmprestimo, numeroParcelas, numeroParcelasPagas, pessoa, tipoEmprestimo):
         self.valorEmprestimo = valorEmprestimo
         self.numeroParcelas = numeroParcelas
         self.numeroParcelasPagas = numeroParcelasPagas
         self.pessoa = pessoa
+        self.tipoEmprestimo = TipoEmprestimo(tipoEmprestimo)
 
     def realizar_pagamento(self, numeroParcelasPagamento):
         numeroParcelasRestantes = self.numeroParcelas - self.numeroParcelasPagas
@@ -24,12 +27,12 @@ class Emprestimo:
     def imprimir_dados_emprestimo(self):
         print('-' * 48)
         print(f'Dados Empréstimo:\n'
-              f'Valor: R${self.valorEmprestimo}\n'
+              f'Valor: R$ {self.valorEmprestimo}\n'
               f'Prazo: {self.numeroParcelas}\n'
-              f'Parcelas Pagas: {self.numeroParcelasPagas}\n')
-        print(f'Dados Cliente:\n')
+              f'Parcelas Pagas: {self.numeroParcelasPagas}\n'
+              f'Tipo Empréstimo: {self.tipoEmprestimo.name}\n')
+        print(f'Dados Cliente:')
         self.pessoa.imprimir_dados_pessoa()
-        print('-' * 48)
 
     def imprimir_valor_parcela(self):
         print(f'Valor Parcela: R$ {(self.valorEmprestimo / self.numeroParcelas):.2f}')
