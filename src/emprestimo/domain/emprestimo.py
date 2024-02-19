@@ -1,41 +1,51 @@
+from domain.tipo_emprestimo import *
+import uuid as id
+
 class Emprestimo:
 
-    def __init__(self, valorEmprestimo, numeroParcelas, numeroParcelasPagas, pessoa):
-        self.valorEmprestimo = valorEmprestimo
-        self.numeroParcelas = numeroParcelas
-        self.numeroParcelasPagas = numeroParcelasPagas
-        self.pessoa = pessoa
+    def __init__(self, valor_emprestimo, numero_parcelas, numero_parcelas_pagas, pessoa, tipo_emprestimo):
+        self.__id = id.uuid4()
+        self.__valor_emprestimo = valor_emprestimo
+        self.__numero_parcelas = numero_parcelas
+        self.__numero_parcelas_pagas = numero_parcelas_pagas
+        self.__pessoa = pessoa
+        self.__tipo_emprestimo = TipoEmprestimo(tipo_emprestimo)
+        self.__aplicar_taxa_juros()
 
-    def realizar_pagamento(self, numeroParcelasPagamento):
-        numeroParcelasRestantes = self.numeroParcelas - self.numeroParcelasPagas
-        if numeroParcelasPagamento > 0 and not self.emprestimo_quitado() and numeroParcelasPagamento <= numeroParcelasRestantes and self.numeroParcelasPagas <= self.numeroParcelas:
-            self.numeroParcelasPagas += numeroParcelasPagamento
-            print(f'Pagamento de {numeroParcelasPagamento} parcelas realizado com sucesso.')
-        elif numeroParcelasPagamento > 0 and self.emprestimo_quitado():
-            print(f'Não foi possível realizar o pagamento de {numeroParcelasPagamento} parcelas. Empréstimo encontra-se Quitado!')
-        elif numeroParcelasPagamento <= 0:
-            print(f'Não foi possível realizar o pagamento de {numeroParcelasPagamento} parcelas. Valor deve ser maior que zero!')
+    def get_id(self) -> str:
+        return self.__id
+
+    def get_valor_emprestimo(self) -> float:
+        return self.__valor_emprestimo
+
+    def realizar_pagamento(self, numero_parcelas_pagamento):
+        numero_parcelas_restantes = self.__numero_parcelas - self.__numero_parcelas_pagas
+        if numero_parcelas_pagamento > 0 and not self.verificar_emprestimo_quitado() and numero_parcelas_pagamento <= numero_parcelas_restantes and self.__numero_parcelas_pagas <= self.__numero_parcelas:
+            self.__numero_parcelas_pagas += numero_parcelas_pagamento
+            print(f'Pagamento de {numero_parcelas_pagamento} parcelas realizado com sucesso.')
+        elif numero_parcelas_pagamento > 0 and self.verificar_emprestimo_quitado():
+            print(f'Não foi possível realizar o pagamento de {numero_parcelas_pagamento} parcelas. Empréstimo encontra-se Quitado!')
+        elif numero_parcelas_pagamento <= 0:
+            print(f'Não foi possível realizar o pagamento de {numero_parcelas_pagamento} parcelas. Valor deve ser maior que zero!')
         else:
-            print(f'Não foi possível realizar o pagamento de {numeroParcelasPagamento} parcelas, pois faltam {numeroParcelasRestantes} parcelas para quitação do Empréstimo.')
+            print(f'Não foi possível realizar o pagamento de {numero_parcelas_pagamento} parcelas, pois faltam {numero_parcelas_restantes} parcelas para quitação do Empréstimo.')
 
-    def emprestimo_quitado(self):
-        return self.numeroParcelas - self.numeroParcelasPagas == 0
+    def __aplicar_taxa_juros(self):
+        taxa = 2.5
+        if self.__numero_parcelas > 5 and taxa > 0:
+            self.__valor_emprestimo += self.__valor_emprestimo * (taxa / 100)
 
-    def imprimir_dados_emprestimo(self):
-        print('-' * 48)
-        print(f'Dados Empréstimo:\n'
-              f'Valor: R${self.valorEmprestimo}\n'
-              f'Prazo: {self.numeroParcelas}\n'
-              f'Parcelas Pagas: {self.numeroParcelasPagas}\n')
-        print(f'Dados Cliente:\n')
-        self.pessoa.imprimir_dados_pessoa()
-        print('-' * 48)
+    def verificar_emprestimo_quitado(self):
+        return (self.__numero_parcelas - self.__numero_parcelas_pagas) == 0
 
     def imprimir_valor_parcela(self):
-        print(f'Valor Parcela: R$ {(self.valorEmprestimo / self.numeroParcelas):.2f}')
+        print(f'Valor Parcela: R$ {(self.__valor_emprestimo / self.__numero_parcelas):.2f}')
 
     def imprimir_valor_pago(self):
-        print(f'Valor Pago: R$ {((self.valorEmprestimo / self.numeroParcelas) * self.numeroParcelasPagas):.2f}')
+        print(f'Valor Já Pago Empréstimo: R$ {((self.__valor_emprestimo / self.__numero_parcelas) * self.__numero_parcelas_pagas):.2f}')
 
     def imprimir_valor_restante_quitacao(self):
-        print(f'Valor Restante: R$ {self.valorEmprestimo - ((self.valorEmprestimo / self.numeroParcelas) * self.numeroParcelasPagas):.2f}')
+        print(f'Valor Restante Para Quitação: R$ {self.__valor_emprestimo - ((self.__valor_emprestimo / self.__numero_parcelas) * self.__numero_parcelas_pagas):.2f}')
+
+    def __str__(self) -> str:
+        return f'Dados Empréstimo: \nId: {self.__id} \nValor: R$ {self.__valor_emprestimo:.2f} \nPrazo: {self.__numero_parcelas} \nParcelas Pagas: {self.__numero_parcelas_pagas} \nTipo Empréstimo: {self.__tipo_emprestimo.name} \n\n{self.__pessoa.__str__()}'
