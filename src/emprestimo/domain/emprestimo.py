@@ -8,7 +8,7 @@ class Emprestimo:
         self.__valor_emprestimo = valor_emprestimo
         self.__numero_parcelas = numero_parcelas
         self.__numero_parcelas_pagas = numero_parcelas_pagas
-        self.__pessoa = pessoa
+        self.__cliente = pessoa
         self.__tipo_emprestimo = TipoEmprestimo(tipo_emprestimo)
         self.__aplicar_taxa_juros()
 
@@ -35,6 +35,29 @@ class Emprestimo:
         if self.__numero_parcelas > 5 and taxa > 0:
             self.__valor_emprestimo += self.__valor_emprestimo * (taxa / 100)
 
+    def _validar_emprestimo(self):
+        if self.__cliente is None:
+            print('Não foi possível cadastrar o Empréstimo. Cliente é obrigatório! Tente novamente.')
+            return False
+
+        if self.__valor_emprestimo is None or self.__valor_emprestimo <= 0:
+            print('Não foi possível cadastrar o Empréstimo. Valor deve ser maior que zero! Tente novamente.')
+            return False
+
+        if self.__numero_parcelas is None or self.__numero_parcelas <= 0:
+            print('Não foi possível cadastrar o Empréstimo. Prazo deve ser maior que zero! Tente novamente.')
+            return False
+
+        if self.__tipo_emprestimo is None or self.__tipo_emprestimo == '':
+            print('Não foi possível cadastrar o Empréstimo. Tipo é obrigatório! Tente novamente.')
+            return False
+
+        if self.__numero_parcelas_pagas is None or self.__numero_parcelas_pagas < 0:
+            print('Não foi possível cadastrar o Empréstimo. Número de Parcelas Pagas deve ser igual ou maior que zero! Tente novamente.')
+            return False
+        
+        return True
+
     def verificar_emprestimo_quitado(self):
         return (self.__numero_parcelas - self.__numero_parcelas_pagas) == 0
 
@@ -48,4 +71,4 @@ class Emprestimo:
         print(f'Valor Restante Para Quitação: R$ {self.__valor_emprestimo - ((self.__valor_emprestimo / self.__numero_parcelas) * self.__numero_parcelas_pagas):.2f}')
 
     def __str__(self) -> str:
-        return f'Dados Empréstimo: \nId: {self.__id} \nValor: R$ {self.__valor_emprestimo:.2f} \nPrazo: {self.__numero_parcelas} \nParcelas Pagas: {self.__numero_parcelas_pagas} \nTipo Empréstimo: {self.__tipo_emprestimo.name} \n\n{self.__pessoa.__str__()}'
+        return f'Dados Empréstimo: \n\nId: {self.__id} \nValor: R$ {self.__valor_emprestimo:.2f} \nPrazo: {self.__numero_parcelas} \nParcelas Pagas: {self.__numero_parcelas_pagas} \nTipo Empréstimo: {self.__tipo_emprestimo.name} \n\n{self.__cliente.__str__()}'
