@@ -1,28 +1,22 @@
-from domain.tipo_emprestimo import * 
+from domain.tipo_emprestimo import *
+import uuid as id
 
 class Emprestimo:
 
     def __init__(self, valor_emprestimo, numero_parcelas, numero_parcelas_pagas, pessoa, tipo_emprestimo):
+        self.__id = id.uuid4()
         self.__valor_emprestimo = valor_emprestimo
         self.__numero_parcelas = numero_parcelas
         self.__numero_parcelas_pagas = numero_parcelas_pagas
         self.__pessoa = pessoa
         self.__tipo_emprestimo = TipoEmprestimo(tipo_emprestimo)
+        self.__aplicar_taxa_juros()
 
-    def get_valor_emprestimo(self):
+    def get_id(self) -> str:
+        return self.__id
+
+    def get_valor_emprestimo(self) -> float:
         return self.__valor_emprestimo
-
-    def get_numero_parcelas(self):
-        return self.__numero_parcelas
-    
-    def get_numero_parcelas_pagas(self):
-        return self.__numero_parcelas_pagas
-
-    def get_pessoa(self):
-        return self.__pessoa
-    
-    def get_tipo_emprestimo(self):
-        return self.__tipo_emprestimo.name
 
     def realizar_pagamento(self, numero_parcelas_pagamento):
         numero_parcelas_restantes = self.__numero_parcelas - self.__numero_parcelas_pagas
@@ -35,6 +29,11 @@ class Emprestimo:
             print(f'Não foi possível realizar o pagamento de {numero_parcelas_pagamento} parcelas. Valor deve ser maior que zero!')
         else:
             print(f'Não foi possível realizar o pagamento de {numero_parcelas_pagamento} parcelas, pois faltam {numero_parcelas_restantes} parcelas para quitação do Empréstimo.')
+
+    def __aplicar_taxa_juros(self):
+        taxa = 2.5
+        if self.__numero_parcelas > 5 and taxa > 0:
+            self.__valor_emprestimo += self.__valor_emprestimo * (taxa / 100)
 
     def verificar_emprestimo_quitado(self):
         return (self.__numero_parcelas - self.__numero_parcelas_pagas) == 0
@@ -49,4 +48,4 @@ class Emprestimo:
         print(f'Valor Restante Para Quitação: R$ {self.__valor_emprestimo - ((self.__valor_emprestimo / self.__numero_parcelas) * self.__numero_parcelas_pagas):.2f}')
 
     def __str__(self) -> str:
-        return f'Dados Empréstimo: \nValor: R$ {self.__valor_emprestimo} \nPrazo: {self.__numero_parcelas} \nParcelas Pagas: {self.__numero_parcelas_pagas} \nTipo Empréstimo: {self.__tipo_emprestimo.name} \n\n{self.__pessoa.__str__()}'
+        return f'Dados Empréstimo: \nId: {self.__id} \nValor: R$ {self.__valor_emprestimo:.2f} \nPrazo: {self.__numero_parcelas} \nParcelas Pagas: {self.__numero_parcelas_pagas} \nTipo Empréstimo: {self.__tipo_emprestimo.name} \n\n{self.__pessoa.__str__()}'
