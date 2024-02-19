@@ -21,4 +21,4 @@ class Pessoa:
         return self.__telefone
 
     def __str__(self) -> str:
-        return f'Dados Cliente: \nId: {self.__id} \nNome: {self._nome} \nCPF: {self._cpf} \nTelefone: {self._telefone}'
+        return f'Dados Cliente: \n\nId: {self.__id} \nNome: {self._nome} \nCPF: {self._cpf} \nTelefone: {self._telefone}'
