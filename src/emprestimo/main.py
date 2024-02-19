@@ -6,6 +6,7 @@ def main():
     continuar = True
     emprestimo = None
     cliente = None
+    lista_emprestimos = []
 
     while continuar:
 
@@ -30,6 +31,7 @@ def main():
                 cliente = Pessoa(nome, telefone, cpf)
 
             case 2: # Cadastrar Novo Empréstimo
+                print('-' * 48)
                 valor_emprestimo = float(input('Informe o Valor do Empréstimo: R$ '))
                 numeroParcelas = int(input('Informe o Prazo do Empréstimo: '))
                 numeroParcelasPagas = int(input('Informe a Quantidade de Parcelas Pagas do Empréstimo: '))
@@ -46,26 +48,42 @@ def main():
                     continue
 
                 emprestimo = Emprestimo(valor_emprestimo, numeroParcelas, numeroParcelasPagas, cliente, tipoEmprestimo)
+                lista_emprestimos.append(emprestimo)
+                print(lista_emprestimos)
 
             case 3: #Imprimir Dados Empréstimo')
                 if emprestimo is not None:
-                    emprestimo.imprimir_dados_emprestimo()
+                    print('-' * 48)
+                    print(emprestimo.__str__())
                 else:
                     print('Nenhum Empréstimo cadastrado até o momento! Tente novamente.')
                 
             case 4: # Realizar Pagamento
-                quantidadeParcelasPagamento = int(input('Informe a quantidade de parcelas que deseja realizar pagamento: '))
-                if quantidadeParcelasPagamento > 0:
-                    emprestimo.realizar_pagamento(quantidadeParcelasPagamento)
+                if emprestimo is not None:
+                    print('-' * 48)
+                    quantidadeParcelasPagamento = int(input('Informe a quantidade de parcelas que deseja realizar pagamento: '))
+                    if quantidadeParcelasPagamento > 0:
+                        emprestimo.realizar_pagamento(quantidadeParcelasPagamento)
+                    else:
+                        print('Pagamento Não Realizado. É necessário informar um valor maior que zero! Tente novamente.')
                 else:
-                    print('Pagamento Não Realizado. É necessário informar um valor maior que zero! Tente novamente.')
+                    print('Nenhum Empréstimo cadastrado até o momento! Tente novamente.')
 
             case 5: # Imprimir Valor Já Pago
-                pass
+                if emprestimo is not None:
+                    print('-' * 48)
+                    emprestimo.imprimir_valor_pago()
+                else:
+                    print('Nenhum Empréstimo cadastrado até o momento! Tente novamente.')
+            
             case 6: # Verificar Empréstimo Quitado
                 if emprestimo is not None:
-                    print('Situação do Empréstimo: ' + ('Quitado' if emprestimo.emprestimo_quitado() else 'Em Aberto'))  
-
+                    print('Situação do Empréstimo: ' + ('Quitado' if emprestimo.verificar_emprestimo_quitado() else 'Em Aberto'))
+                    if not emprestimo.verificar_emprestimo_quitado():
+                        emprestimo.imprimir_valor_restante_quitacao()
+                else:
+                    print('Nenhum Empréstimo cadastrado até o momento! Tente novamente.')
+            
             case 7: # Sair
                 continuar = False
                 print('Encerrando Sistema de Empréstimos.')
