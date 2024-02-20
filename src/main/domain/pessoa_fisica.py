@@ -1,4 +1,4 @@
-from domain.pessoa import *
+from src.main.domain.pessoa import *
 
 class PessoaFisica(Pessoa):
 

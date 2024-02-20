@@ -3,6 +3,8 @@
 
 # Pycharm
 .idea
+.vscode
 
 # Python
+.pytest_cache
 __pycache__/

@@ -1,4 +1,4 @@
-from domain.tipo_emprestimo import *
+from src.main.domain.tipo_emprestimo import *
 import uuid as id
 
 class Emprestimo:

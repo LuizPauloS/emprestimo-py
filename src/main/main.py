@@ -1,6 +1,6 @@
-from domain.emprestimo import *
-from domain.pessoa_fisica import *
-from domain.pessoa_juridica import *
+from src.main.domain.emprestimo import *
+from src.main.domain.pessoa_fisica import *
+from src.main.domain.pessoa_juridica import *
 from uuid import UUID
 
 def main():
@@ -243,4 +243,7 @@ def validar_id(id):
         return False
     return str(uuid) == id
 
-main()
+
+
+if __name__ == '__main__':
+    main()
