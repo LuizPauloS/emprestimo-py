@@ -1,24 +1,23 @@
+from abc import ABC, abstractmethod 
 import uuid as id
 
-class Pessoa:
+class Pessoa(ABC):
 
-    def __init__(self, nome, telefone, cpf):
+    def __init__(self, nome, telefone):
         self.__id = id.uuid4()
         self._nome = nome
         self._telefone = telefone
-        self._cpf = cpf
 
-    @property
-    def get_nome(self):
-        return self.__nome
+    def get_id(self):
+        return self.__id
 
-    @property
-    def get_cpf(self):
-        return self.__cpf
+    @abstractmethod
+    def _aplicar_taxa_juros(self):
+        pass
+
+    @abstractmethod
+    def _validar_cliente(self) -> bool:
+        pass
     
-    @property
-    def get_telefone(self):
-        return self.__telefone
-
     def __str__(self) -> str:
-        return f'Dados Cliente: \n\nId: {self.__id} \nNome: {self._nome} \nCPF: {self._cpf} \nTelefone: {self._telefone}'
+        return f'Dados Cliente: \n\nId: {self.__id} \nNome: {self._nome} \nTelefone: {self._telefone}'
