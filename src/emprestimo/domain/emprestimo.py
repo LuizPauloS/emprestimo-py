@@ -31,11 +31,15 @@ class Emprestimo:
             print(f'Não foi possível realizar o pagamento de {numero_parcelas_pagamento} parcelas, pois faltam {numero_parcelas_restantes} parcelas para quitação do Empréstimo.')
 
     def __aplicar_taxa_juros(self):
-        taxa = 2.5
-        if self.__numero_parcelas > 5 and taxa > 0:
-            self.__valor_emprestimo += self.__valor_emprestimo * (taxa / 100)
+        taxa_emprestimo = 2.5 # taxa deve ser aplicada se numero de parcelas for maior que 5
+        if self.__numero_parcelas > 5 and taxa_emprestimo > 0:
+            self.__valor_emprestimo += self.__valor_emprestimo * (taxa_emprestimo / 100)
+    
+        taxa_cliente = self.__cliente._aplicar_taxa_juros()
+        if taxa_cliente > 0:
+            self.__valor_emprestimo += self.__valor_emprestimo * (taxa_cliente / 100)
 
-    def _validar_emprestimo(self):
+    def _validar_emprestimo(self) -> bool:
         if self.__cliente is None:
             print('Não foi possível cadastrar o Empréstimo. Cliente é obrigatório! Tente novamente.')
             return False
@@ -58,11 +62,14 @@ class Emprestimo:
         
         return True
 
+    def __calcular_valor_parcela(self) -> float:
+        return (self.__valor_emprestimo / self.__numero_parcelas)
+
     def verificar_emprestimo_quitado(self):
         return (self.__numero_parcelas - self.__numero_parcelas_pagas) == 0
 
     def imprimir_valor_parcela(self):
-        print(f'Valor Parcela: R$ {(self.__valor_emprestimo / self.__numero_parcelas):.2f}')
+        print(f'Valor Parcela: R$ {self._calcular_valor_parcela():.2f}')
 
     def imprimir_valor_pago(self):
         print(f'Valor Já Pago Empréstimo: R$ {((self.__valor_emprestimo / self.__numero_parcelas) * self.__numero_parcelas_pagas):.2f}')

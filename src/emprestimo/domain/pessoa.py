@@ -12,7 +12,7 @@ class Pessoa(ABC):
         return self.__id
 
     @abstractmethod
-    def _valor_percentual_taxa_juros(self):
+    def _aplicar_taxa_juros(self):
         pass
 
     @abstractmethod
