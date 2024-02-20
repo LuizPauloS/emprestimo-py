@@ -1,11 +1,12 @@
 from domain.emprestimo import *
-from domain.pessoa import *
+from domain.pessoa_fisica import *
 from uuid import UUID
 
 def main():
     continuar = True
     emprestimo = None
     cliente = None
+    lista_clientes = []
     lista_emprestimos = []
 
     while continuar:
@@ -33,7 +34,11 @@ def main():
                 nome = str(input('Informe o Nome: '))
                 telefone = str(input('Informe o Telefone: '))
                 cpf = str(input('Informe o CPF: '))
-                cliente = Pessoa(nome, telefone, cpf)
+                titulo_eleitor = str(input('Informe o Titulo Eleitor: '))
+                cliente = PessoaFisica(nome, telefone, cpf, titulo_eleitor)
+                if cliente._validar_cliente():
+                    lista_clientes.append(cliente)
+                    print('-' * 48 + f'\nCliente cadastrado com sucesso! Id: {cliente.get_id()}')
 
             case 2: # Cadastrar Novo Empréstimo
                 print('-' * 48)
@@ -51,7 +56,7 @@ def main():
                 emprestimo = Emprestimo(valor_emprestimo, numero_parcelas, numero_parcelas_pagas, cliente, tipo_emprestimo)
                 if emprestimo._validar_emprestimo():
                     lista_emprestimos.append(emprestimo)
-                    print(f'Empréstimo criado com sucesso! Id: {emprestimo.get_id()}')
+                    print('-' * 48 + f'\nEmpréstimo cadastrado com sucesso! Id: {emprestimo.get_id()}')
 
             case 3: #Imprimir Dados Todos Empréstimos
                 if not verificar_lista_vazia(lista_emprestimos):
