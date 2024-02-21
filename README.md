@@ -13,7 +13,7 @@ Esse desafio foi feito utilizando Python para aplicação e Pytest para os teste
 
 ### Estrutura do projeto:
 ```
-/emprestimo$ tree
+/emprestimo-py$ tree
 .
 ├── README.md
 ├── desafio
@@ -52,7 +52,7 @@ Esse desafio foi feito utilizando Python para aplicação e Pytest para os teste
 
 3. Pelo CMD acesse a raiz do projeto com o comando:
     ```
-    cd emprestimo/
+    cd emprestimo-py/
     ```
 
 4. Instale as dependências do projeto com o comando:
