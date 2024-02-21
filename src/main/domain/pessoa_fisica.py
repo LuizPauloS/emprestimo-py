@@ -29,5 +29,8 @@ class PessoaFisica(Pessoa):
         
         return True
 
+    def __eq__(self, other):
+        return self.__id == other.__id and self.__cpf == other.__cpf
+
     def __str__(self) -> str:
         return super().__str__() + f'\nCPF: {self.__cpf} \nTitulo Eleitor: {self.__titulo_eleitor}'
