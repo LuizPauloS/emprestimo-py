@@ -4,6 +4,7 @@ import uuid as id
 class Emprestimo:
 
     def __init__(self, valor_emprestimo, numero_parcelas, numero_parcelas_pagas, pessoa, tipo_emprestimo):
+        self.__validar_emprestimo(valor_emprestimo, numero_parcelas, numero_parcelas_pagas, pessoa, tipo_emprestimo)
         self.__id = id.uuid4()
         self.__valor_emprestimo = valor_emprestimo
         self.__numero_parcelas = numero_parcelas
@@ -18,17 +19,26 @@ class Emprestimo:
     def get_valor_emprestimo(self) -> float:
         return self.__valor_emprestimo
 
-    def realizar_pagamento(self, numero_parcelas_pagamento):
+    def get_numero_parcelas(self) -> int:
+        return self.__numero_parcelas
+
+    def get_numero_parcelas_pagas(self) -> int:
+        return self.__numero_parcelas_pagas
+
+    def realizar_pagamento(self, numero_parcelas_pagamento: str):
+        if not isinstance(numero_parcelas_pagamento, int):
+            raise Exception(f'Número de Parcelas para Pagamento inválido! Informe um número inteiro.')
+        
         numero_parcelas_restantes = self.__numero_parcelas - self.__numero_parcelas_pagas
         if numero_parcelas_pagamento > 0 and not self.verificar_emprestimo_quitado() and numero_parcelas_pagamento <= numero_parcelas_restantes and self.__numero_parcelas_pagas <= self.__numero_parcelas:
             self.__numero_parcelas_pagas += numero_parcelas_pagamento
             print(f'Pagamento de {numero_parcelas_pagamento} parcelas realizado com sucesso.')
         elif numero_parcelas_pagamento > 0 and self.verificar_emprestimo_quitado():
-            print(f'Não foi possível realizar o pagamento de {numero_parcelas_pagamento} parcelas. Empréstimo encontra-se Quitado!')
-        elif numero_parcelas_pagamento <= 0:
-            print(f'Não foi possível realizar o pagamento de {numero_parcelas_pagamento} parcelas. Valor deve ser maior que zero!')
+            raise Exception(f'Não foi possível realizar o pagamento de {numero_parcelas_pagamento} parcelas. Empréstimo encontra-se Quitado!')
+        elif numero_parcelas_pagamento == 0:
+            raise Exception(f'Não foi possível realizar o pagamento de {numero_parcelas_pagamento} parcelas. Valor deve ser maior que zero!')
         else:
-            print(f'Não foi possível realizar o pagamento de {numero_parcelas_pagamento} parcelas, pois faltam {numero_parcelas_restantes} parcelas para quitação do Empréstimo.')
+            raise Exception(f'Não foi possível realizar o pagamento de {numero_parcelas_pagamento} parcelas, pois faltam {numero_parcelas_restantes} parcelas para quitação do Empréstimo.')
 
     def __aplicar_taxa_juros(self):
         taxa_emprestimo = 2.5 # taxa deve ser aplicada se numero de parcelas for maior que 5
@@ -39,32 +49,24 @@ class Emprestimo:
         if taxa_cliente > 0:
             self.__valor_emprestimo += self.__valor_emprestimo * (taxa_cliente / 100)
 
-    def _validar_emprestimo(self) -> bool:
-        if self.__cliente is None:
-            print('Não foi possível cadastrar o Empréstimo. Cliente é obrigatório! Tente novamente.')
-            return False
+    def __validar_emprestimo(self, valor_emprestimo, numero_parcelas, numero_parcelas_pagas, pessoa, tipo_emprestimo):
+        if pessoa is None:
+            raise Exception('Não foi possível cadastrar o Empréstimo. Cliente é obrigatório! Tente novamente.')
 
-        if self.__valor_emprestimo is None or self.__valor_emprestimo <= 0:
-            print('Não foi possível cadastrar o Empréstimo. Valor deve ser maior que zero! Tente novamente.')
-            return False
+        if valor_emprestimo is None or valor_emprestimo <= 0:
+            raise Exception('Não foi possível cadastrar o Empréstimo. Valor deve ser maior que zero! Tente novamente.')
 
-        if self.__numero_parcelas is None or self.__numero_parcelas <= 0:
-            print('Não foi possível cadastrar o Empréstimo. Prazo deve ser maior que zero! Tente novamente.')
-            return False
+        if numero_parcelas is None or numero_parcelas <= 0:
+            raise Exception('Não foi possível cadastrar o Empréstimo. Prazo deve ser maior que zero! Tente novamente.')
 
-        if self.__tipo_emprestimo is None or self.__tipo_emprestimo == '':
-            print('Não foi possível cadastrar o Empréstimo. Tipo é obrigatório! Tente novamente.')
-            return False
+        if tipo_emprestimo is None or not isinstance(tipo_emprestimo, int):
+            raise Exception('Não foi possível cadastrar o Empréstimo. Tipo de Empréstimo inválido! Tente novamente.')
 
-        if self.__numero_parcelas_pagas is None or self.__numero_parcelas_pagas < 0:
-            print('Não foi possível cadastrar o Empréstimo. Número de Parcelas Pagas deve ser igual ou maior que zero! Tente novamente.')
-            return False
+        if numero_parcelas_pagas is None or numero_parcelas_pagas < 0:
+            raise Exception('Não foi possível cadastrar o Empréstimo. Número de Parcelas Pagas deve ser igual ou maior que zero! Tente novamente.')
 
-        if self.__numero_parcelas_pagas > self.__numero_parcelas:
-            print('Não foi possível cadastrar o Empréstimo. Número de Parcelas Pagas não pode ser superior ao Número de Parcelas do Empréstimo! Tente novamente.')
-            return False
-        
-        return True
+        if numero_parcelas_pagas > numero_parcelas:
+            raise Exception('Não foi possível cadastrar o Empréstimo. Número de Parcelas Pagas não pode ser superior ao Número de Parcelas do Empréstimo! Tente novamente.')
 
     def __calcular_valor_parcela(self) -> float:
         return (self.__valor_emprestimo / self.__numero_parcelas)
@@ -73,7 +75,7 @@ class Emprestimo:
         return (self.__numero_parcelas - self.__numero_parcelas_pagas) == 0
 
     def imprimir_valor_parcela(self):
-        print(f'Valor Parcela: R$ {self._calcular_valor_parcela():.2f}')
+        print(f'Valor Parcela: R$ {self.__calcular_valor_parcela():.2f}')
 
     def imprimir_valor_pago(self):
         print(f'Valor Já Pago Empréstimo: R$ {((self.__valor_emprestimo / self.__numero_parcelas) * self.__numero_parcelas_pagas):.2f}')
