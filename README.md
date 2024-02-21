@@ -78,7 +78,6 @@ emprestimo$ tree
     ```
     python3 -m pytest --cov
     ```
-    ![coverage-cmd](coverage-cmd.png)
 
 8. Para gerar o relatório de cobertura de testes em formato html execute o comando: 
     ```
