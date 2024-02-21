@@ -101,7 +101,7 @@ def main():
                     if not verificar_lista_vazia(lista_clientes, 'Cliente'):
                         print('-' * 48) 
                         for cliente in lista_clientes:
-                            print(cliente.__str__() + len(lista_clientes) > 1 if '\n' else '')
+                            print(cliente.__str__() + '\n')
                             print('-' * 48)
 
                 case 5: # Realizar Pagamento
