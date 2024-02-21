@@ -22,6 +22,10 @@ def cliente_pj() -> Pessoa:
     return PessoaJuridica(nome, telefone, cnpj, inscricao_estadual)
 
 @pytest.fixture()
+def pessoa_fisica() -> PessoaFisica:
+    return cliente_pf()
+
+@pytest.fixture()
 def emprestimo_pf() -> Emprestimo:
     valor_emprestimo = 10000
     numero_parcelas = 10
@@ -41,13 +45,3 @@ def emprestimo_pj() -> Emprestimo:
 
     cliente = cliente_pj()
     return Emprestimo(valor_emprestimo, numero_parcelas, numero_parcelas_pagas, cliente, tipo_emprestimo)
-
-# @pytest.fixture()
-# def emprestimo_cliente_invalido() -> Emprestimo:
-#     valor_emprestimo = 10000
-#     numero_parcelas = 10
-#     numero_parcelas_pagas = 0
-#     tipo_emprestimo = TipoEmprestimo.PESSOAL
-
-#     cliente = None
-#     return Emprestimo(valor_emprestimo, numero_parcelas, numero_parcelas_pagas, cliente, tipo_emprestimo)

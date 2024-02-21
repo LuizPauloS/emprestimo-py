@@ -4,6 +4,7 @@ import uuid as id
 class Pessoa(ABC):
 
     def __init__(self, nome, telefone):
+        self.__validar_cliente(nome, telefone)
         self.__id = id.uuid4()
         self._nome = nome
         self._telefone = telefone
@@ -21,9 +22,12 @@ class Pessoa(ABC):
     def _aplicar_taxa_juros(self):
         pass
 
-    @abstractmethod
-    def _validar_cliente(self) -> bool:
-        pass
+    def __validar_cliente(self, nome, telefone):
+        if nome is None or nome == '':
+            raise Exception('Não foi possível cadastrar Cliente. Nome é obrigatório! Tente novamente.')
+
+        if telefone is None or telefone == '':
+            raise Exception('Não foi possível cadastrar Cliente. Telefone é obrigatório! Tente novamente.')
         
     def __str__(self) -> str:
         return f'Dados Cliente: \n\nId: {self.__id} \nNome: {self._nome} \nTelefone: {self._telefone}'

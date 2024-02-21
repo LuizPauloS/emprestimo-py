@@ -83,7 +83,7 @@ class Emprestimo:
     def imprimir_valor_restante_quitacao(self):
         print(f'Valor Restante Para Quitação: R$ {self.__valor_emprestimo - ((self.__valor_emprestimo / self.__numero_parcelas) * self.__numero_parcelas_pagas):.2f}')
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         return self.__id == other.__id
 
     def __str__(self) -> str:
