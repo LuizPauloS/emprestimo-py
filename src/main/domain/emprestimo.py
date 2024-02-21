@@ -81,5 +81,8 @@ class Emprestimo:
     def imprimir_valor_restante_quitacao(self):
         print(f'Valor Restante Para Quitação: R$ {self.__valor_emprestimo - ((self.__valor_emprestimo / self.__numero_parcelas) * self.__numero_parcelas_pagas):.2f}')
 
+    def __eq__(self, other):
+        return self.__id == other.__id
+
     def __str__(self) -> str:
         return f'Dados Empréstimo: \n\nId: {self.__id} \nValor: R$ {self.__valor_emprestimo:.2f} \nPrazo: {self.__numero_parcelas} \nParcelas Pagas: {self.__numero_parcelas_pagas} \nTipo Empréstimo: {self.__tipo_emprestimo.name} \n\n{self.__cliente.__str__()}'

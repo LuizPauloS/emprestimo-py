@@ -1,19 +1,15 @@
-from src.main.domain.emprestimo import *
-from src.main.domain.pessoa_fisica import *
+import pytest
 
-def test_create_emprestimo_success():
-    valor_emprestimo = 10000
-    numero_parcelas = 10
-    numero_parcelas_pagas = 10
-    tipo_emprestimo = TipoEmprestimo.PESSOAL
+# class EmprestimoTest():
 
-    nome = 'Luiz'
-    cpf = '123.456.789-10'
-    telefone = '3333-4444'
-    titulo_eleitor = '55555'
-
-    cliente = PessoaFisica(nome, telefone, cpf, titulo_eleitor)
-    emprestimo = Emprestimo(valor_emprestimo, numero_parcelas, numero_parcelas_pagas, cliente, tipo_emprestimo)
+def test_create_emprestimo_success(emprestimo_pessoa_fisica):
+    emprestimo = emprestimo_pessoa_fisica
 
     assert emprestimo is not None
-    assert emprestimo.verificar_emprestimo_quitado() is True
+    assert emprestimo.verificar_emprestimo_quitado() is False
+
+def test_create_emprestimo_error(emprestimo_pessoa_juridica):
+    emprestimo = emprestimo_pessoa_juridica
+
+    emprestimo_valido = emprestimo._validar_emprestimo()
+    assert emprestimo_valido is True

@@ -27,5 +27,8 @@ class PessoaJuridica(Pessoa):
             print('Não foi possível cadastrar Cliente. Inscrição Estadual é obrigatório! Tente novamente.')
             return False
 
+    def __eq__(self, other):
+        return self.__id == other.__id and self.__cnpj == other.__cnpj
+
     def __str__(self) -> str:
         return super().__str__() + f'\nCNPJ: {self.__cnpj} \nIncrição Estadual: {self.__inscricao_estadual}'
