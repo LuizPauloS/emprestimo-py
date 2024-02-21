@@ -14,9 +14,11 @@ Esse desafio foi feito utilizando Python para aplicação e Pytest para os teste
 
 ### Estrutura do projeto:
 ```
-/emprestimo-py$ tree
+emprestimo$ tree
 .
 ├── README.md
+├── coverage-cmd.png
+├── coverage-html.png
 ├── desafio
 │   ├── Exercicio Bonus.pdf
 │   ├── Exercicio1.pdf
@@ -40,9 +42,10 @@ Esse desafio foi feito utilizando Python para aplicação e Pytest para os teste
         ├── __init__.py
         └── domain
             ├── __init__.py
+            ├── conftest.py
             └── test_emprestimo.py
 
-6 directories, 19 files
+6 directories, 22 files
 ```
 
 ## Como executar o projeto:
@@ -71,17 +74,18 @@ Esse desafio foi feito utilizando Python para aplicação e Pytest para os teste
     pytest src/test/
     ```
 
-7. Para obter a cobertura de testes unitários execute o comando:
+7. Para obter a cobertura de testes unitários via CMD execute o comando:
     ```
     python3 -m pytest --cov
     ```
+    ![coverage-cmd](coverage-cmd.png)
 
-8. Para gerar o relatório de cobertura de testes em formato hmtl execute o comando: 
+8. Para gerar o relatório de cobertura de testes em formato html execute o comando: 
     ```
     python3 -m pytest --cov=./ --cov-report html
     ```
-    Obs:. O relatório de cobertura será gerado no diretório <b><i>htmlcov/</i></b> na raiz do projeto, para visualizar, abra o arquivo index.html em um navegador. O diretório htmlcov e o arquivo .coverage que são gerados foram adicionados ao .gitignore para que não sejam commitados no repositório.
+    Obs:. O relatório de cobertura será gerado no diretório <b><i>htmlcov/</i></b> na raiz do projeto, para visualizar, abra o arquivo index.html em um navegador. Ao abri-lo no navegador é possível navegar nas classes onde aparece a cobertura, em verde o que já se encontra coberto e em vermelho o que ainda necessita de teste. Os diretórios e arquivos gerados ao executar o comando, foram adicionados ao .gitignore para que não sejam commitados no repositório.
 
     Exemplo de relatório gerado:
 
-    ![coverage-tests](coverage-tests.png)
+    ![coverage-html](coverage-html.png)
