@@ -9,6 +9,7 @@ Esse desafio foi feito utilizando Python para aplicação e Pytest para os teste
 
 ### Dependências:
 - [pytest](https://docs.pytest.org/)
+- [pytest-cov](https://pypi.org/project/pytest-cov/)
 
 
 ### Estrutura do projeto:
@@ -69,3 +70,18 @@ Esse desafio foi feito utilizando Python para aplicação e Pytest para os teste
     ```
     pytest src/test/
     ```
+
+7. Para obter a cobertura de testes unitários execute o comando:
+    ```
+    python3 -m pytest --cov
+    ```
+
+8. Para gerar o relatório de cobertura de testes em formato hmtl execute o comando: 
+    ```
+    python3 -m pytest --cov=./ --cov-report html
+    ```
+    Obs:. O relatório de cobertura será gerado no diretório <b><i>htmlcov/</i></b> na raiz do projeto, para visualizar, abra o arquivo index.html em um navegador. O diretório htmlcov e o arquivo .coverage que são gerados foram adicionados ao .gitignore para que não sejam commitados no repositório.
+
+    Exemplo de relatório gerado:
+
+    ![coverage-tests](coverage-tests.png)
