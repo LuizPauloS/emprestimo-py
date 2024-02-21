@@ -14,9 +14,11 @@ Esse desafio foi feito utilizando Python para aplicação e Pytest para os teste
 
 ### Estrutura do projeto:
 ```
-/emprestimo-py$ tree
+emprestimo$ tree
 .
 ├── README.md
+├── coverage-cmd.png
+├── coverage-html.png
 ├── desafio
 │   ├── Exercicio Bonus.pdf
 │   ├── Exercicio1.pdf
@@ -40,9 +42,10 @@ Esse desafio foi feito utilizando Python para aplicação e Pytest para os teste
         ├── __init__.py
         └── domain
             ├── __init__.py
+            ├── conftest.py
             └── test_emprestimo.py
 
-6 directories, 19 files
+6 directories, 22 files
 ```
 
 ## Como executar o projeto:
