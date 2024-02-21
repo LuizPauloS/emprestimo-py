@@ -59,6 +59,10 @@ class Emprestimo:
         if self.__numero_parcelas_pagas is None or self.__numero_parcelas_pagas < 0:
             print('Não foi possível cadastrar o Empréstimo. Número de Parcelas Pagas deve ser igual ou maior que zero! Tente novamente.')
             return False
+
+        if self.__numero_parcelas_pagas > self.__numero_parcelas:
+            print('Não foi possível cadastrar o Empréstimo. Número de Parcelas Pagas não pode ser superior ao Número de Parcelas do Empréstimo! Tente novamente.')
+            return False
         
         return True
 
