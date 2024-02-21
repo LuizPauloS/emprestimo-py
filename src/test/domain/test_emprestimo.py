@@ -5,7 +5,7 @@ import pytest
 
 class TestEmprestimo:
 
-    def test_deve_criar_emprestimo_pf_com_sucesso_dados_validos(self, emprestimo_pf):
+    def test_deve_validar_taxa_juros_aplicada_emprestimo_pf_com_sucesso(self, emprestimo_pf):
         valor_original = 10000
         taxa_parcela_maior_5 = 2.5
         taxa_pessoa_fisica = 10
@@ -17,7 +17,7 @@ class TestEmprestimo:
         assert emprestimo_pf.get_numero_parcelas() > 5
         assert emprestimo_pf.get_valor_emprestimo() == valor_com_juros
 
-    def test_deve_criar_emprestimo_pj_com_sucesso_dados_validos(self, emprestimo_pj):
+    def test_deve_validar_taxa_juros_aplicada_emprestimo_pj_com_sucesso(self, emprestimo_pj):
         valor_original = 150000000
         taxa_parcela_maior_5 = 2.5
         taxa_pessoa_juridica = 5
@@ -43,7 +43,7 @@ class TestEmprestimo:
 
         with pytest.raises(Exception) as excinfo:
             emprestimo_pf.realizar_pagamento(numero_parcelas_para_pagamento)
-        assert str(excinfo.value) == f'Número de Parcelas para Pagamento inválido! Informe um número inteiro.'
+        assert str(excinfo.value) == 'Número de Parcelas para Pagamento inválido! Informe um número inteiro.'
 
     def test_deve_realizar_pagamento_emprestimo_pf_e_deve_gerar_erro_emprestimo_quitado(self, emprestimo_pf):
         numero_parcelas_para_pagamento = 10
